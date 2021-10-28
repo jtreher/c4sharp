@@ -14,8 +14,8 @@ namespace C4Sharp.Sample.Orders
             ShowLegend = false,
             Structures = new Structure[]
             {
-                WebLayer,
-                ServiceLayer,
+                WebLayer(),
+                ServiceLayer(),
                 DataLayer,
             },
             Relationships = new[]
@@ -25,26 +25,41 @@ namespace C4Sharp.Sample.Orders
             }
         };
 
-        private static ContainerBoundary WebLayer => new("WebLayer", "web")
+        private static ContainerBoundary WebLayer()
         {
-            Components = new[]
-            {
-                OrdersController
-            },
-        };
+            var ordersController = OrdersController;
+            ordersController.AddTag(Tag.Deprecated);
 
-        private static ContainerBoundary ServiceLayer => new("ServiceLayer", "service")
-        {
-            Components = new[]
+            return new("WebLayer", "web")
             {
-                IOrdersService,
-                OrdersService
+                Components = new[]
+            {
+               ordersController
             },
-            Relationships = new []
+            };
+        }
+
+        private static ContainerBoundary ServiceLayer()
+        {
+            var iOrdersService = IOrdersService;
+            iOrdersService.AddTag(Tag.Planned);
+
+            var ordersService = OrdersService;
+            ordersService.AddTag(Tag.InProgress);
+
+            return new("ServiceLayer", "service")
             {
-                (IOrdersService < OrdersService)["implements"],
-            }
-        };
+                Components = new[]
+                {
+                    iOrdersService,
+                    ordersService
+                },
+                Relationships = new[]
+                {
+                    (IOrdersService < OrdersService)["implements"],
+                }
+            };
+        }
 
         private static ContainerBoundary DataLayer => new("DataLayer", "data")
         {
@@ -53,10 +68,10 @@ namespace C4Sharp.Sample.Orders
                 IOrdersRepository,
                 OrdersRepository
             },
-            Relationships = new []
+            Relationships = new[]
             {
                 (IOrdersRepository < OrdersRepository)["implements"],
-            }            
+            }
         };
     }
 }

@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>9.0</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>C4Sharp - simple .NET superset of C4-PlantUML</Title>
         <Authors>yanjustino, leisiamedeiros</Authors>
@@ -10,7 +11,7 @@
         <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/8T4/c4sharp</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>c4, diagrams</PackageTags>
+        <Package>c4, diagrams</Package>
         <PackageVersion>2.2.1</PackageVersion>
         <PackageIconUrl>https://github.com/8T4/c4sharp/blob/main/LICENSE</PackageIconUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -20,6 +21,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     </ItemGroup>
 
     <ItemGroup>

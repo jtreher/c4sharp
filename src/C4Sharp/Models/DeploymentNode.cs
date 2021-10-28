@@ -21,25 +21,29 @@ namespace C4Sharp.Models
         /// <param name="alias">Should be unique</param>
         /// <param name="label"></param>
         /// <param name="description"></param>
-        public DeploymentNode(string alias, string label, string description) 
+        /// <param name="tags">Optional</param>
+        public DeploymentNode(string alias, string label, string description, params Tag[] tags)
             : base(alias, label, description)
         {
             Nodes = default;
             Container = default;
             Properties = default;
+            AddTag(tags);
         }
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="alias">Should be unique</param>
         /// <param name="container"></param>
-        public DeploymentNode(string alias, Container container) 
+        /// <param name="tags">Optional</param>
+        public DeploymentNode(string alias, Container container, params Tag[] tags)
             : base(alias, container?.Label, container?.Description)
         {
             Nodes = default;
             Container = container;
             Properties = default;
+            AddTag(tags);
         }
     }
 }

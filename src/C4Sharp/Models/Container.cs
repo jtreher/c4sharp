@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using C4Sharp.Extensions;
+﻿using C4Sharp.Extensions;
 using C4Sharp.Models.Relationships;
+using System.Collections.Generic;
 
 namespace C4Sharp.Models
 {
@@ -17,13 +17,13 @@ namespace C4Sharp.Models
     /// </summary>
     public sealed class Container : Structure
     {
-        private readonly Dictionary<int, Container> _instances = 
+        private readonly Dictionary<int, Container> _instances =
             new Dictionary<int, Container>();
 
         public string Technology { get; }
         public ContainerType ContainerType { get; }
         public Container this[int index] => this.NewInstance(index);
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -31,11 +31,13 @@ namespace C4Sharp.Models
         /// <param name="type"></param>
         /// <param name="description"></param>
         /// <param name="technology"></param>
-        public Container(string alias, ContainerType type, string description, string technology) 
+        /// <param name="tags">Optional</param>
+        public Container(string alias, ContainerType type, string description, string technology, params Tag[] tags)
             : base(alias, type.GetDescription(), description, Boundary.Internal)
         {
             Technology = technology;
             ContainerType = type;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -46,11 +48,13 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="technology"></param>
         /// <param name="link"></param>
-        public Container(string alias, ContainerType type, string description, string technology, string link)
+        /// <param name="tags">Optional</param>
+        public Container(string alias, ContainerType type, string description, string technology, string link, params Tag[] tags)
             : base(alias, type.GetDescription(), description, link)
         {
             Technology = technology;
             ContainerType = type;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -61,11 +65,13 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="technology"></param>
         /// <param name="boundary"></param>
-        public Container(string alias, ContainerType type, string description, string technology, Boundary boundary) 
+        /// <param name="tags">Optional</param>
+        public Container(string alias, ContainerType type, string description, string technology, Boundary boundary, params Tag[] tags)
             : base(alias, type.GetDescription(), description, boundary)
         {
             Technology = technology;
             ContainerType = type;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -77,13 +83,15 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="technology"></param>
         /// <param name="boundary"></param>
-        public Container(string alias, ContainerType type, string label, string description, string technology, Boundary boundary) 
+        /// <param name="tags">Optional</param>
+        public Container(string alias, ContainerType type, string label, string description, string technology, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, boundary)
         {
             Technology = technology;
             ContainerType = type;
-        }          
-        
+            AddTag(tags);
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -91,11 +99,13 @@ namespace C4Sharp.Models
         /// <param name="label"></param>
         /// <param name="description"></param>
         /// <param name="technology"></param>
-        public Container(string alias, string label, string description, string technology) 
+        /// <param name="tags">Optional</param>
+        public Container(string alias, string label, string description, string technology, params Tag[] tags)
             : base(alias, label, description, Boundary.Internal)
         {
             Technology = technology;
             ContainerType = ContainerType.None;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -106,11 +116,13 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="technology"></param>
         /// <param name="link"></param>
-        public Container(string alias, string label, string description, string technology, string link)
+        /// <param name="tags">Optional</param>
+        public Container(string alias, string label, string description, string technology, string link, params Tag[] tags)
             : base(alias, label, description, link)
         {
             Technology = technology;
             ContainerType = ContainerType.None;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -121,11 +133,13 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="technology"></param>
         /// <param name="boundary"></param>
-        public Container(string alias, string label, string description, string technology, Boundary boundary) 
+        /// <param name="tags">Optional</param>
+        public Container(string alias, string label, string description, string technology, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, boundary)
         {
             Technology = technology;
             ContainerType = ContainerType.None;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -137,11 +151,13 @@ namespace C4Sharp.Models
         /// <param name="technology"></param>
         /// <param name="link"></param>
         /// <param name="boundary"></param>
-        public Container(string alias, string label, string description, string technology, string link, Boundary boundary)
+        /// <param name="tags">Optional</param>
+        public Container(string alias, string label, string description, string technology, string link, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, link, boundary)
         {
             Technology = technology;
             ContainerType = ContainerType.None;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -154,11 +170,13 @@ namespace C4Sharp.Models
         /// <param name="technology"></param>
         /// <param name="link"></param>
         /// <param name="boundary"></param>
-        public Container(string alias, ContainerType type, string label, string description, string technology, string link, Boundary boundary)
+        /// <param name="tags">Optional</param>
+        public Container(string alias, ContainerType type, string label, string description, string technology, string link, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, link, boundary)
         {
             Technology = technology;
             ContainerType = type;
+            AddTag(tags);
         }
 
         /// <summary>

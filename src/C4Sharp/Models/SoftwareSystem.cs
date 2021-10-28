@@ -1,5 +1,4 @@
-﻿using System;
-using C4Sharp.Models.Relationships;
+﻿using C4Sharp.Models.Relationships;
 
 namespace C4Sharp.Models
 {
@@ -17,9 +16,11 @@ namespace C4Sharp.Models
         /// </summary>
         /// <param name="alias">Should be unique</param>
         /// <param name="label"></param>
-        public SoftwareSystem(string alias, string label)
+        /// <param name="tags">Optional</param>
+        public SoftwareSystem(string alias, string label, params Tag[] tags)
             : base(alias, label, string.Empty, Boundary.Internal)
         {
+            AddTag(tags);
         }
 
         /// <summary>
@@ -28,9 +29,11 @@ namespace C4Sharp.Models
         /// <param name="alias">Should be unique</param>
         /// <param name="label"></param>
         /// <param name="description"></param>
-        public SoftwareSystem(string alias, string label, string description)
+        /// <param name="tags">Optional</param>
+        public SoftwareSystem(string alias, string label, string description, params Tag[] tags)
             : base(alias, label, description, Boundary.Internal)
         {
+            AddTag(tags);
         }
 
         /// <summary>
@@ -40,9 +43,11 @@ namespace C4Sharp.Models
         /// <param name="label"></param>
         /// <param name="description"></param>
         /// <param name="link"></param>
-        public SoftwareSystem(string alias, string label, string description, string link)
+        /// <param name="tags">Optional</param>
+        public SoftwareSystem(string alias, string label, string description, string link, params Tag[] tags)
             : base(alias, label, description, link)
         {
+            AddTag(tags);
         }
 
         /// <summary>
@@ -52,9 +57,11 @@ namespace C4Sharp.Models
         /// <param name="label"></param>
         /// <param name="description"></param>
         /// <param name="boundary"></param>
-        public SoftwareSystem(string alias, string label, string description, Boundary boundary) 
+        /// <param name="tags">Optional</param>
+        public SoftwareSystem(string alias, string label, string description, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, boundary)
         {
+            AddTag(tags);
         }
 
         /// <summary>
@@ -65,9 +72,11 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="link"></param>
         /// <param name="boundary"></param>
-        public SoftwareSystem(string alias, string label, string description, string link, Boundary boundary)
+        /// <param name="tags">Optional</param>
+        public SoftwareSystem(string alias, string label, string description, string link, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, link, boundary)
         {
+            AddTag(tags);
         }
     }
 }
