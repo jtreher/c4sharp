@@ -5,10 +5,10 @@ using C4Sharp.Sample.Structures;
 
 namespace C4Sharp.Sample.Diagrams
 {
-    using static Systems;    
-    using static Components;    
-    using static Containers;    
-    
+    using static Systems;
+    using static Components;
+    using static Containers;
+
     public static class ComponentDiagramBuilder
     {
         public static ComponentDiagram Build()
@@ -38,7 +38,7 @@ namespace C4Sharp.Sample.Diagrams
 
         private static ContainerBoundary Boundary()
         {
-            return new ("c1", "API Application")
+            return new("c1", "API Application")
             {
                 Components = new[]
                 {

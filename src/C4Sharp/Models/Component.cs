@@ -23,10 +23,12 @@ namespace C4Sharp.Models
         /// <param name="label"></param>
         /// <param name="description"></param>
         /// <param name="technology"></param>
-        public Component(string alias, string label, string description, string technology) 
+        /// <param name="tags">Optional</param>
+        public Component(string alias, string label, string description, string technology, params Tag[] tags)
             : base(alias, label, description, Boundary.Internal)
         {
             Technology = technology;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -37,10 +39,12 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="technology"></param>
         /// <param name="link"></param>
-        public Component(string alias, string label, string description, string technology, string link)
+        /// <param name="tags">Optional</param>
+        public Component(string alias, string label, string description, string technology, string link, params Tag[] tags)
             : base(alias, label, description, link)
         {
             Technology = technology;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -51,10 +55,12 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="technology"></param>
         /// <param name="boundary"></param>
-        public Component(string alias, string label, string description, string technology, Boundary boundary) 
+        /// <param name="tags">Optional</param>
+        public Component(string alias, string label, string description, string technology, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, boundary)
         {
             Technology = technology;
+            AddTag(tags);
         }
 
         /// <summary>
@@ -66,10 +72,12 @@ namespace C4Sharp.Models
         /// <param name="technology"></param>
         /// <param name="link"></param>
         /// <param name="boundary"></param>
-        public Component(string alias, string label, string description, string technology, string link, Boundary boundary)
+        /// <param name="tags">Optional</param>
+        public Component(string alias, string label, string description, string technology, string link, Boundary boundary, params Tag[] tags)
             : base(alias, label, description, link, boundary)
         {
             Technology = technology;
+            AddTag(tags);
         }
     }
 }

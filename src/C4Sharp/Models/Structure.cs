@@ -1,4 +1,7 @@
 ﻿using C4Sharp.Models.Relationships;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace C4Sharp.Models
 {
@@ -13,10 +16,15 @@ namespace C4Sharp.Models
     {
         public string Alias { get; }
         public string Label { get; }
-        public string Description { get; }
-        public string[] Tags { get; private set; }
-        public string Link { get; }
-        public Boundary Boundary { get; }
+        public string Description { get; } = string.Empty;
+
+        [Obsolete("Prefer CustomTags")]
+        public string[] Tags => CustomTags.Select(t => t.Value).ToArray();
+
+        private List<Tag> _customTags = new List<Tag>();
+        public IReadOnlyCollection<Tag> CustomTags => _customTags;
+        public string Link { get; } = string.Empty;
+        public Boundary Boundary { get; } = Boundary.Internal;
 
         /// <summary>
         /// Constructor
@@ -24,7 +32,7 @@ namespace C4Sharp.Models
         /// <param name="alias">Should be unique</param>
         /// <param name="label"></param>
         protected Structure(string alias, string label) =>
-            (Alias, Label, Description, Boundary) = (alias, label, string.Empty, Boundary.Internal);
+            (Alias, Label, Description) = (alias, label, string.Empty);
 
         /// <summary>
         /// Constructor
@@ -33,7 +41,9 @@ namespace C4Sharp.Models
         /// <param name="label"></param>
         /// <param name="description"></param>
         protected Structure(string alias, string label, string description) =>
-            (Alias, Label, Description, Boundary) = (alias, label, description, Boundary.Internal);
+            (Alias, Label, Description) = (alias, label, description);
+
+        //////ADD builders to concrete classes??? Stuck right now trying to keep these one liners around.
 
         /// <summary>
         /// Constructor
@@ -43,7 +53,7 @@ namespace C4Sharp.Models
         /// <param name="description"></param>
         /// <param name="link"></param>
         protected Structure(string alias, string label, string description, string link) =>
-            (Alias, Label, Description, Link, Boundary) = (alias, label, description, link, Boundary.Internal);
+            (Alias, Label, Description, Link) = (alias, label, description, link);
 
         /// <summary>
         /// Constructor
@@ -67,10 +77,18 @@ namespace C4Sharp.Models
             (Alias, Label, Description, Link, Boundary) = (alias, label, description, link, boundary);
 
         /// <summary>
-        /// Add Tags
+        /// Add Tag
         /// </summary>
         /// <param name="tags"></param>
-        public void AddTag(params string[] tags) => Tags = tags;
+        ///
+        public void AddTag(params Tag[] tags) => _customTags.AddRange(tags);
+
+        /// <summary>
+        /// Add Tag
+        /// </summary>
+        /// <param name="tags"></param>
+        [Obsolete("Use AddTag(params Tag[] tags")]
+        public void AddTag(params string[] tags) => AddTag(tags.Select(t => new Tag(t)).ToArray());
 
         /// <summary>
         /// Forward relationship

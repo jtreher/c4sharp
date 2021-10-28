@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using C4Sharp.Models.Relationships;
+﻿using C4Sharp.Models.Relationships;
+using System.Collections.Generic;
 
 namespace C4Sharp.Models
 {
@@ -16,9 +16,11 @@ namespace C4Sharp.Models
         /// </summary>
         /// <param name="alias">Should  be unique</param>
         /// <param name="label"></param>
-        public ContainerBoundary(string alias, string label) : base(alias, label)
+        /// <param name="tags">Optional</param>
+        public ContainerBoundary(string alias, string label, params Tag[] tags) : base(alias, label)
         {
             Relationships = new Relationship[] { };
+            AddTag(tags);
         }
     }
 }

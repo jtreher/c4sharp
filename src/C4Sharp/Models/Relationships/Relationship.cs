@@ -11,7 +11,7 @@
         public string Protocol { get; set; }
         public Position Position { get; set; }
         public Direction Direction { get; }
-        
+
         public Relationship this[string label]
         {
             get
@@ -20,7 +20,7 @@
                 return this;
             }
         }
-        
+
         public Relationship this[Position position]
         {
             get
@@ -28,8 +28,8 @@
                 Position = position;
                 return this;
             }
-        }        
-        
+        }
+
         public Relationship this[string label, string protocol]
         {
             get
@@ -38,7 +38,7 @@
                 Protocol = protocol;
                 return this;
             }
-        }        
+        }
 
         /// <summary>
         /// Constructor
@@ -70,7 +70,7 @@
             : this(from, Direction.Forward, to, label, string.Empty, Position.None)
         {
         }
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -81,8 +81,8 @@
         public Relationship(Structure @from, Structure to, string label, string protocol)
             : this(from, Direction.Forward, to, label, protocol, Position.None)
         {
-        }        
-        
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -93,8 +93,8 @@
         public Relationship(Structure @from, Direction direction, Structure to, string label)
             : this(from, direction, to, label, string.Empty, Position.None)
         {
-        }       
-        
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>

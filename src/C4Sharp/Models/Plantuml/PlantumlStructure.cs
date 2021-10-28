@@ -1,7 +1,8 @@
-using System.Linq;
-using System.Text;
 using C4Sharp.Extensions;
 using C4Sharp.Models.Relationships;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace C4Sharp.Models.Plantuml
 {
@@ -12,14 +13,14 @@ namespace C4Sharp.Models.Plantuml
     {
         /// <summary>
         /// Parser Structure to PlantUML
-        /// </summary>        
+        /// </summary>
         public static string ToPumlString(this Structure structure)
         {
             return structure switch
             {
                 Person person => person.ToPumlString(),
                 SoftwareSystem system => system.ToPumlString(),
-                SoftwareSystemBoundary softwareSystemBoundary => softwareSystemBoundary.ToPumlString(), 
+                SoftwareSystemBoundary softwareSystemBoundary => softwareSystemBoundary.ToPumlString(),
                 DeploymentNode deploymentNode => deploymentNode.ToPumlString(),
                 Component component => component.ToPumlString(),
                 Container container => container.ToPumlString(),
@@ -27,21 +28,21 @@ namespace C4Sharp.Models.Plantuml
                 _ => string.Empty
             };
         }
-        
+
         private static string ToPumlString(this Person person)
         {
             var procedureName = $"Person{GetExternalSuffix(person)}";
 
-            return $"{procedureName}({person.Alias}, \"{person.Label}\", \"{person.Description}\", $link=\"{person.Link}\")";
-        }        
-        
+            return $"{procedureName}({person.Alias}, \"{person.Label}\", \"{person.Description}\", $link=\"{person.Link}\", {person.CustomTags.ToPumlString()})";
+        }
+
         private static string ToPumlString(this SoftwareSystem system)
         {
             var procedureName = $"System{GetExternalSuffix(system)}";
 
-            return $"{procedureName}({system.Alias}, \"{system.Label}\", \"{system.Description}\", $link=\"{system.Link}\")";
-        }        
-        
+            return $"{procedureName}({system.Alias}, \"{system.Label}\", \"{system.Description}\", $link=\"{system.Link}\", {system.CustomTags.ToPumlString()})";
+        }
+
         private static string ToPumlString(this SoftwareSystemBoundary boundary)
         {
             var stream = new StringBuilder();
@@ -56,15 +57,15 @@ namespace C4Sharp.Models.Plantuml
             stream.AppendLine("}");
 
             return stream.ToString();
-        }           
-        
+        }
+
         private static string ToPumlString(this Component component)
         {
             var procedureName = $"Component{GetExternalSuffix(component)}";
 
-            return $"{procedureName}({component.Alias}, \"{component.Label}\", \"{component.Technology}\", \"{component.Description}\", $link=\"{component.Link}\")";
-        }     
-        
+            return $"{procedureName}({component.Alias}, \"{component.Label}\", \"{component.Technology}\", \"{component.Description}\", $link=\"{component.Link}\", {component.CustomTags.ToPumlString()})";
+        }
+
         private static string ToPumlString(this Container container)
         {
             var externalSuffix = GetExternalSuffix(container);
@@ -76,7 +77,7 @@ namespace C4Sharp.Models.Plantuml
                 _ => $"Container{externalSuffix}"
             };
 
-            return  $"{procedureName}({container.Alias}, \"{container.Label}\", \"{container.Technology}\", \"{container.Description}\", $link=\"{container.Link}\")";
+            return $"{procedureName}({container.Alias}, \"{container.Label}\", \"{container.Technology}\", \"{container.Description}\", $link=\"{container.Link}\", {container.CustomTags.ToPumlString()})";
         }
 
         private static string ToPumlString(this ContainerBoundary boundary)
@@ -103,7 +104,7 @@ namespace C4Sharp.Models.Plantuml
 
             return stream.ToString();
         }
-        
+
         private static string ToPumlString(this DeploymentNode deployment, int concat = 0)
         {
             var stream = new StringBuilder();
@@ -122,9 +123,9 @@ namespace C4Sharp.Models.Plantuml
                 }
             }
 
-            stream.AppendLine(deployment.Tags is null
+            stream.AppendLine(deployment.CustomTags.Any()
                 ? $"{spaces}Deployment_Node({deployment.Alias}, \"{deployment.Label}\", \"{deployment.Description}\") {{"
-                : $"{spaces}Deployment_Node({deployment.Alias}, \"{deployment.Label}\", \"{deployment.Description}\", $tags=\"{string.Join(',', deployment.Tags)}\") {{");
+                : $"{spaces}Deployment_Node({deployment.Alias}, \"{deployment.Label}\", \"{deployment.Description}\", {deployment.CustomTags.ToPumlString()}) {{");
 
             if (deployment.Nodes != null)
             {
@@ -143,6 +144,8 @@ namespace C4Sharp.Models.Plantuml
 
             return stream.ToString();
         }
+
+        private static string ToPumlString(this IReadOnlyCollection<Tag> tags) => $"$tags=\"{string.Join('+', tags.Select(t => t.Value))}\"";
 
         private static string GetExternalSuffix(Structure structure) => structure.Boundary == Boundary.External ? "_Ext" : string.Empty;
     }
