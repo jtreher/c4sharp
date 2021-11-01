@@ -24,9 +24,9 @@ namespace C4Sharp.Extensions
             }
 
             var attribs = memberInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false);
-            
-            return attribs.Any() 
-                ? ((System.ComponentModel.DescriptionAttribute)attribs.ElementAt(0)).Description 
+
+            return attribs.Any()
+                ? ((System.ComponentModel.DescriptionAttribute)attribs.ElementAt(0)).Description
                 : genericEnum.ToString();
         }
     }
