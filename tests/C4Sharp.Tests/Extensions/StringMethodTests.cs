@@ -16,6 +16,7 @@ namespace C4Sharp.Tests.Extensions
         [InlineData("Some N0mb34s", "some-n0mb34s")]
         [InlineData("uniѬcode", "unicode")]
         [InlineData("All!     The-thingsѬ", "all-the-things")]
+        [InlineData("http://www.url.com/a-slug?query=diagrams-are-fun", "httpwwwurlcoma-slugquerydiagrams-are-fun")]
         public void GenerateSlug_WillFormatsHappyPaths_Correctly(string input, string expected)
         {
             var actual = input.GenerateSlug();

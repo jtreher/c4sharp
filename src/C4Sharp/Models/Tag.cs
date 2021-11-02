@@ -19,7 +19,7 @@ namespace C4Sharp.Models
     /// And their use would be in one of the structure methods such as container:
     /// Container(spa, "SPA", "angular", "The main interface that the customer interacts with via v1.0", $tags="deprecated")
     /// </remarks>
-    public class Tag
+    public sealed class Tag : IEquatable<Tag>
     {
         public static readonly Tag Deprecated = new Tag("deprecated", backgroundColor: Color.Red);
 
@@ -55,13 +55,36 @@ namespace C4Sharp.Models
         }
 
         public static implicit operator string(Tag tag) => tag.Value;
+
+        public bool Equals(Tag tag) =>
+            Value == tag.Value &&
+                EqualityComparer<Color?>.Default.Equals(BackgroundColor, tag.BackgroundColor) &&
+                EqualityComparer<Color?>.Default.Equals(BorderColor, tag.BorderColor) &&
+                EqualityComparer<Color?>.Default.Equals(TextColor, tag.TextColor);
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Tag tag)
+            {
+                return Equals(tag);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value, BackgroundColor, BorderColor, TextColor);
+        }
     }
 
+    /// TODO: Extract to file
     public static class ColorExtensions
     {
         public static string ToHex(this Color color) => color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
     }
 
+    /// TODO: Extract to file
     public static class TagExtensions
     {
         public static List<string> ToStringList(this IReadOnlyCollection<Tag> tags) => tags.Select(t => t.Value).ToList();
