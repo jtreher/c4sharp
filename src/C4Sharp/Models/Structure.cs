@@ -21,7 +21,7 @@ namespace C4Sharp.Models
         [Obsolete("Prefer CustomTags")]
         public string[] Tags => CustomTags.Select(t => t.Value).ToArray();
 
-        private List<Tag> _customTags = new List<Tag>();
+        private readonly List<Tag> _customTags = new();
         public IReadOnlyCollection<Tag> CustomTags => _customTags;
         public string Link { get; } = string.Empty;
         public Boundary Boundary { get; } = Boundary.Internal;

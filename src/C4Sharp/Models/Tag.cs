@@ -49,12 +49,10 @@ namespace C4Sharp.Models
 
         public Tag(string value, Color? textColor = null, Color? backgroundColor = null, Color? borderColor = null) : this(value)
         {
-            TextColor = TextColor;
+            TextColor = textColor;
             BackgroundColor = backgroundColor;
             BorderColor = borderColor;
         }
-
-        public static implicit operator string(Tag tag) => tag.Value;
 
         public bool Equals(Tag tag) =>
             Value == tag.Value &&
@@ -76,6 +74,8 @@ namespace C4Sharp.Models
         {
             return HashCode.Combine(Value, BackgroundColor, BorderColor, TextColor);
         }
+
+        public override string ToString() => Value;
     }
 
     /// TODO: Extract to file

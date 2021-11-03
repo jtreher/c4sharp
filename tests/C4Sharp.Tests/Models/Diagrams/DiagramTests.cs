@@ -22,9 +22,10 @@ namespace C4Sharp.Tests.Models.Diagrams
         [Fact]
         public void Slug_WillGenerate_WithTitle()
         {
-            Diagram diagram = new ContainerDiagram();
-
-            diagram.Title = "Nice Diagram";
+            Diagram diagram = new ContainerDiagram
+            {
+                Title = "Nice Diagram"
+            };
 
             var actual = diagram.Slug();
 

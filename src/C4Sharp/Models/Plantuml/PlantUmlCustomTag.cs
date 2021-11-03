@@ -17,7 +17,7 @@ namespace C4Sharp.Models.Plantuml
                 Person person => person.CustomTags,
                 SoftwareSystem system => system.CustomTags,
                 SoftwareSystemBoundary softwareSystemBoundary => softwareSystemBoundary.GatherTags(),
-                DeploymentNode deploymentNode => deploymentNode.CustomTags,
+                DeploymentNode deploymentNode => deploymentNode.GatherTags(),
                 Component component => component.CustomTags,
                 Container container => container.CustomTags,
                 ContainerBoundary containerBoundary => containerBoundary.GatherTags(),
@@ -26,12 +26,12 @@ namespace C4Sharp.Models.Plantuml
         }
 
         private static IEnumerable<Tag> GatherTags(this SoftwareSystemBoundary boundary)
-            => boundary.Containers.SelectMany(c => c.CustomTags);
+            => boundary.CustomTags.Concat(boundary.Containers.SelectMany(c => c.CustomTags));
 
         private static IEnumerable<Tag> GatherTags(this ContainerBoundary boundary)
             => boundary.Components.SelectMany(c => c.CustomTags);
 
-        private static IEnumerable<Tag> GatherTags(this DeploymentNode deployment, int concat = 0)
+        private static IEnumerable<Tag> GatherTags(this DeploymentNode deployment)
             => deployment.CustomTags.Concat(deployment.Nodes.SelectMany(n => n.CustomTags).Concat(deployment.Container.CustomTags));
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace C4Sharp.Models.Plantuml
 
                 if (tag.TextColor.HasValue)
                 {
-                    sb.Append($", $borderColor=\"{tag.TextColor.Value.ToHex()}\"");
+                    sb.Append($", $fontColor=\"{tag.TextColor.Value.ToHex()}\"");
                 }
 
-                outerSb.AppendLine($"AddElementTag(\"{tag.Value}\"{sb.ToString()})");
+                outerSb.AppendLine($"AddElementTag(\"{tag.Value}\"{sb})");
             }
 
             return outerSb.ToString();
