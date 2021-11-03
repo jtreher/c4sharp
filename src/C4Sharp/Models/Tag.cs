@@ -21,11 +21,11 @@ namespace C4Sharp.Models
     /// </remarks>
     public sealed class Tag : IEquatable<Tag>
     {
-        public static readonly Tag Deprecated = new Tag("deprecated", backgroundColor: Color.Red);
+        public static readonly Tag Deprecated = new("deprecated", backgroundColor: Color.Red);
 
-        public static readonly Tag Planned = new Tag("planned", backgroundColor: Color.Beige);
+        public static readonly Tag Planned = new("planned", backgroundColor: Color.Beige);
 
-        public static readonly Tag InProgress = new Tag("in-progress", backgroundColor: Color.LightSeaGreen);
+        public static readonly Tag InProgress = new("in-progress", backgroundColor: Color.LightSeaGreen);
 
         public string Value { get; }
 
@@ -37,6 +37,10 @@ namespace C4Sharp.Models
 
         public bool IsStyled => BackgroundColor.HasValue || BorderColor.HasValue || TextColor.HasValue;
 
+        /// <summary>
+        /// Creates an unstyled tag
+        /// </summary>
+        /// <param name="value">Tested PlantUML and unicode chars are ok</param>
         public Tag(string value)
         {
             if (string.IsNullOrEmpty(value) || value.Contains(',') || value.Length > 100)
@@ -47,6 +51,13 @@ namespace C4Sharp.Models
             Value = value;
         }
 
+        /// <summary>
+        /// Creates a styled tag
+        /// </summary>
+        /// <param name="value">Tested PlantUML and unicode chars are ok</param>
+        /// <param name="textColor"></param>
+        /// <param name="backgroundColor"></param>
+        /// <param name="borderColor"></param>
         public Tag(string value, Color? textColor = null, Color? backgroundColor = null, Color? borderColor = null) : this(value)
         {
             TextColor = textColor;

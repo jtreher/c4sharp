@@ -66,7 +66,7 @@ namespace C4Sharp.Models.Plantuml
                     sb.Append($", $fontColor=\"{tag.TextColor.Value.ToHex()}\"");
                 }
 
-                outerSb.AppendLine($"AddElementTag(\"{tag.Value}\"{sb})");
+                outerSb.Append($"AddElementTag(\"{tag.Value}\"{sb})");
             }
 
             return outerSb.ToString();

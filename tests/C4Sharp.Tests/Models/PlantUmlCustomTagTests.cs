@@ -47,22 +47,63 @@ namespace C4Sharp.Tests.Models
 
         public class ToPumlString
         {
-            [Fact]
-            public void ToPumlString_CreatesTag_WhenStyled()
+            [Theory]
+            [MemberData(nameof(StyledTagsTheories))]
+            public void ToPumlString_CreatesTag_WhenStyled(string caseName, Tag arrangement, string expected)
             {
+                _ = caseName;
+
                 List<Tag> tags = new()
                 {
-                    new Tag("TagOne", textColor: Color.Red, backgroundColor: Color.Green, borderColor: Color.Blue)
+                    arrangement
                 };
 
                 var actual = tags.ToPumlString();
 
-                Assert.Equal("AddElementTag(\"TagOne\", $borderColor=\"0000FF\", $bgColor=\"008000\", $fontColor=\"FF0000\")", actual);
+                Assert.Equal(expected, actual);
             }
 
             [Fact]
             public void ToPumlString_IsEmpty_WhenNotStyled()
             {
+                List<Tag> tags = new()
+                {
+                    new Tag("TagOne")
+                };
+
+                var actual = tags.ToPumlString();
+
+                Assert.Equal(string.Empty, actual);
+            }
+
+            public static IEnumerable<object[]> StyledTagsTheories()
+            {
+                yield return new object[]
+                {
+                    "All Styles",
+                    new Tag("TagOne", textColor: Color.Red, backgroundColor: Color.Green, borderColor: Color.Blue),
+                    "AddElementTag(\"TagOne\", $borderColor=\"0000FF\", $bgColor=\"008000\", $fontColor=\"FF0000\")"
+                };
+
+                yield return new object[]
+                {
+                    "Text Only",
+                    new Tag("TagOne", textColor: Color.Red),
+                    "AddElementTag(\"TagOne\", $fontColor=\"FF0000\")"
+                };
+                yield return new object[]
+                {
+                    "Background Only",
+                    new Tag("TagOne", backgroundColor: Color.Green),
+                    "AddElementTag(\"TagOne\", $bgColor=\"008000\")"
+                };
+
+                yield return new object[]
+                {
+                    "Border Only",
+                    new Tag("TagOne", borderColor: Color.Blue),
+                    "AddElementTag(\"TagOne\", $borderColor=\"0000FF\")"
+                };
             }
         }
     }
